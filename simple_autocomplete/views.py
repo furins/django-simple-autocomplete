@@ -1,11 +1,10 @@
 import pickle
+import json
 
-from django.utils import simplejson
 from django.http import HttpResponse
 from django.db.models.query import QuerySet
 from django.db.models import get_model
 from django.contrib.contenttypes.models import ContentType
-from django.conf import settings
 
 from simple_autocomplete.monkey import _simple_autocomplete_queryset_cache
 from simple_autocomplete.utils import get_search_fieldname, get_setting
@@ -30,7 +29,7 @@ def get_json(request, token):
             # Check for duplicate strings
             counts = {}
             for item in items:
-                key = unicode(item) 
+                key = unicode(item)
                 counts.setdefault(key, 0)
                 counts[key] += 1
 
@@ -39,8 +38,8 @@ def get_json(request, token):
                 key = value = unicode(item)
                 if counts[key] > 1:
                     func = get_setting(
-                        app_label_model, 
-                        'duplicate_format_function', 
+                        app_label_model,
+                        'duplicate_format_function',
                         lambda obj, model, content_type: content_type.name
                     )
                     content_type = ContentType.objects.get_for_model(model)
@@ -50,4 +49,4 @@ def get_json(request, token):
         else:
             result = 'CACHE_MISS'
 
-    return HttpResponse(simplejson.dumps(result))
+    return HttpResponse(json.dumps(result))
