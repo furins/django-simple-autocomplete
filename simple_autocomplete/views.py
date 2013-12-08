@@ -1,6 +1,6 @@
 import pickle
+import json
 
-from django.utils import simplejson
 from django.http import HttpResponse
 from django.db.models.query import QuerySet
 from django.db.models import get_model
@@ -50,4 +50,4 @@ def get_json(request, token):
         else:
             result = 'CACHE_MISS'
 
-    return HttpResponse(simplejson.dumps(result))
+    return HttpResponse(json.dumps(result))
