@@ -190,7 +190,8 @@ class AutoCompleteMultipleWidget(SelectMultiple):
         close: function(event, ui) {
             $('#id_%s_helper').val('');
         },
-        minLength: 3
+        minLength: 3,
+        autoFocus: true
     });
 
     });
