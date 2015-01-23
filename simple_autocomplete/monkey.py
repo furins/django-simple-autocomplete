@@ -1,14 +1,14 @@
-import pickle
 import hashlib
+import pickle
 
-from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 from django.conf import settings
 from django.forms.fields import Field
+from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
+from simple_autocomplete.widgets import (AutoCompleteMultipleWidget,
+                                         AutoCompleteWidget)
 
 _simple_autocomplete_queryset_cache = {}
 
-from simple_autocomplete.widgets import AutoCompleteWidget, \
-    AutoCompleteMultipleWidget
 
 
 def ModelChoiceField__init__(self, queryset, empty_label=u"---------",
@@ -48,6 +48,7 @@ def ModelChoiceField__init__(self, queryset, empty_label=u"---------",
 
     # Call Field instead of ChoiceField __init__() because we don't need
     # ChoiceField.__init__().
+    kwargs.pop('limit_choices_to')
     Field.__init__(self, required, widget, label, initial, help_text,
                    *args, **kwargs)
 
