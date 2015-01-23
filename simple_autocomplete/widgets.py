@@ -89,14 +89,15 @@ class AutoCompleteWidget(Select):
             });
         },
         select: function(event, ui) { $('#id_%(name)s').val(ui.item.real_value); },
-        minLength: 3
+        minLength: 3,
+        autoFocus: true
     });
 
     });
     </script>
 
 <input id="id_%(name)s_helper" type="text" value="%(display)s" />
-<a href="#" title="Clear" onclick="$('#id_%(name)s_helper').val(''); $('#id_%(name)s_helper').focus(); $('#id_%(name)s').val(''); return false;">x<small></small></a>
+<a href="#" class="close" title="Clear" onclick="$('#id_%(name)s_helper').val(''); $('#id_%(name)s_helper').focus(); $('#id_%(name)s').val(''); return false;">&times;</a>
 <input name="%(name)s" id="id_%(name)s" type="hidden" value="%(value)s" />""" % dict(name=name, url=url, display=display, value=value)
         return mark_safe(html)
 
@@ -190,7 +191,8 @@ class AutoCompleteMultipleWidget(SelectMultiple):
         close: function(event, ui) {
             $('#id_%s_helper').val('');
         },
-        minLength: 3
+        minLength: 3,
+        autoFocus: true
     });
 
     });

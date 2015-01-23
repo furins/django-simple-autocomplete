@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import pickle
-import hashlib
 
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
 from django.test import TestCase
-from django.conf import settings
 from django.test.client import Client as BaseClient, FakePayload, \
     RequestFactory
-from django.core.handlers.wsgi import WSGIRequest
 from django.core.urlresolvers import reverse
-from django.utils import simplejson
 
 from simple_autocomplete.widgets import AutoCompleteWidget
 from simple_autocomplete.monkey import _simple_autocomplete_queryset_cache

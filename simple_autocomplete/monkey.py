@@ -1,15 +1,13 @@
-import pickle
 import hashlib
+import pickle
 
-from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 from django.conf import settings
 from django.forms.fields import Field
+from django.forms.models import ModelChoiceField, ModelMultipleChoiceField
 
 _simple_autocomplete_queryset_cache = {}
 
-from simple_autocomplete.widgets import AutoCompleteWidget, \
-    AutoCompleteMultipleWidget
-
+from simple_autocomplete.widgets import AutoCompleteMultipleWidget, AutoCompleteWidget
 
 def ModelChoiceField__init__(self, queryset, empty_label=u"---------",
         cache_choices=False, required=True, widget=None, label=None,
@@ -23,7 +21,7 @@ def ModelChoiceField__init__(self, queryset, empty_label=u"---------",
     # Monkey starts here
     if self.__class__ in (ModelChoiceField, ModelMultipleChoiceField):
         meta = queryset.model._meta
-        key = '%s.%s' % (meta.app_label, meta.module_name)
+        key = '%s.%s' % (meta.app_label, meta.model_name)
         # Handle both legacy settings SIMPLE_AUTOCOMPLETE_MODELS and new
         # setting SIMPLE_AUTOCOMPLETE.
         models = getattr(
@@ -33,7 +31,7 @@ def ModelChoiceField__init__(self, queryset, empty_label=u"---------",
         if key in models:
             pickled = pickle.dumps((
                 queryset.model._meta.app_label,
-                queryset.model._meta.module_name,
+                queryset.model._meta.model_name,
                 queryset.query
             ))
             token = hashlib.md5(pickled).hexdigest()
@@ -48,6 +46,7 @@ def ModelChoiceField__init__(self, queryset, empty_label=u"---------",
 
     # Call Field instead of ChoiceField __init__() because we don't need
     # ChoiceField.__init__().
+    kwargs.pop('limit_choices_to')
     Field.__init__(self, required, widget, label, initial, help_text,
                    *args, **kwargs)
 

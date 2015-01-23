@@ -1,11 +1,10 @@
 import pickle
+import json
 
-from django.utils import simplejson
 from django.http import HttpResponse
 from django.db.models.query import QuerySet
 from django.db.models import get_model
 from django.contrib.contenttypes.models import ContentType
-from django.conf import settings
 
 from simple_autocomplete.monkey import _simple_autocomplete_queryset_cache
 from simple_autocomplete.utils import get_search_fieldname, get_setting
@@ -50,4 +49,4 @@ def get_json(request, token):
         else:
             result = 'CACHE_MISS'
 
-    return HttpResponse(simplejson.dumps(result))
+    return HttpResponse(json.dumps(result))
