@@ -46,7 +46,8 @@ def ModelChoiceField__init__(self, queryset, empty_label=u"---------",
 
     # Call Field instead of ChoiceField __init__() because we don't need
     # ChoiceField.__init__().
-    kwargs.pop('limit_choices_to')
+    if 'limit_choices_to' in kwargs:
+        kwargs.pop('limit_choices_to')
     Field.__init__(self, required, widget, label, initial, help_text,
                    *args, **kwargs)
 
